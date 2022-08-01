@@ -1,5 +1,7 @@
+using FluentValidation.AspNetCore;
 using HostedService1;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<TestService>();
 builder.Services.AddHostedService<HostedServiceDemo1>();
 builder.Services.AddHostedService<ScheduledService>();
+
+builder.Services.AddFluentValidation(opt =>
+{
+    // 註冊要使用的程序集
+    opt.RegisterValidatorsFromAssembly(Assembly.GetEntryAssembly());
+});
 
 var app = builder.Build();
 
